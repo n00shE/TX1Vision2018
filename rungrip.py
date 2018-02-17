@@ -30,13 +30,22 @@ version = int(cv2.__version__[:1])
 streamRunning = True
 pipeline = GripPipeline()
 
+try:
+    NetworkTable.setTeam(2551) 
+    NetworkTable.setIPAddress("roborio-2551-frc.local")
+    NetworkTable.setClientMode()
+    NetworkTable.initialize()
+    print("Initializing Network Tables...")
+except:
+    print("Network Tables already initialized")
+    pass
 
-NetworkTable.setTeam(2551) 
-NetworkTable.setIPAddress("roborio-2551-frc.local")
-NetworkTable.setClientMode()
-NetworkTable.initialize()
+#NetworkTable.setTeam(2551) 
+#NetworkTable.setIPAddress("roborio-2551-frc.local")
+#NetworkTable.setClientMode()
+#NetworkTable.initialize()
 
-print("Initializing Network Tables...")
+#print("Initializing Network Tables...")
 
 sd = NetworkTable.getTable('GRIP/myContoursReport')
 
@@ -97,25 +106,27 @@ while streamRunning:
 		#print pipeline.largestRect
 		if (pipeline.largestRect) != None: 
 	   	    """
-		    xtwo = pipeline.rects[0][0] + pipeline.rects[0][2]
-	    	    ytwo = pipeline.rects[0][1] + pipeline.rects[0][3]
-	    	    cv2.rectangle(frame, (pipeline.rects[0][0],pipeline.rects[0][1]), (xtwo,ytwo), (255,0,0), thickness=3, lineType=8, shift=0)
-	    	    cv2.imshow("Rectangle", frame)
+		    #xtwo = pipeline.rects[0][0] + pipeline.rects[0][2]
+	    	    #ytwo = pipeline.rects[0][1] + pipeline.rects[0][3]
+	    	    #cv2.rectangle(frame, (pipeline.rects[0][0],pipeline.rects[0][1]), (xtwo,ytwo), (255,0,0), thickness=3, lineType=8, shift=0)
+	    	    #cv2.imshow("Rectangle", frame)
 		    """
 		    xtwo = pipeline.largestRect[0] + pipeline.largestRect[2]
 	    	    ytwo = pipeline.largestRect[1] + pipeline.largestRect[3]
 		    
-		    centerX = pipeline.largestRect[0] + pipeline.largestRect[2]/2
-		    centerY = pipeline.largestRect[1] + pipeline.largestRect[3]/2
-	    	    cv2.rectangle(frame, (pipeline.largestRect[0],pipeline.largestRect[1]), (xtwo,ytwo), (255,0,0), thickness=3, lineType=8, shift=0)
+		    centerX = [pipeline.largestRect[0] + pipeline.largestRect[2]/2]
+		    centerY = [pipeline.largestRect[1] + pipeline.largestRect[3]/2]
+	    	    #cv2.rectangle(frame, (pipeline.largestRect[0],pipeline.largestRect[1]), (xtwo,ytwo), (255,0,0), thickness=3, lineType=8, shift=0)
 	    	    #cv2.imshow("Rectangle", frame)
+
 		    
-		    sd.putNumber("centerX", centerX)
-		    sd.putNumber("centerY", centerY)
-		    sd.putNumber("width", pipeline.largestRect[2])
-		    sd.putNumber("height", pipeline.largestRect[3])
-		    sd.putNumber("area", pipeline.largestArea)
-		    #print pipeline.largestArea
+		    sd.putNumberArray("centerX", centerX)
+		    sd.putNumberArray("centerY", centerY)
+		    sd.putNumberArray("width", [pipeline.largestRect[2]])
+		    sd.putNumberArray("height", [pipeline.largestRect[3]])
+		    sd.putNumberArray("area", [pipeline.largestArea])
+#		    sd.putNumber("Test", len(pipeline.largestRect))
+#		    print pipeline.largestArea
 
 		# Press Q on keyboard to  exit
 		if cv2.waitKey(25) & 0xFF == ord('q'):

@@ -21,9 +21,9 @@ class GripPipeline:
         self.cv_resize_output = None
 
         self.__hsv_threshold_input = self.cv_resize_output
-        self.__hsv_threshold_hue = [19.424460431654676, 70.90909090909092]
-        self.__hsv_threshold_saturation = [52.74280575539565, 209.9242424242424]
-        self.__hsv_threshold_value = [73.38129496402878, 169.14141414141415]
+        self.__hsv_threshold_hue = [0.0, 180.0]
+        self.__hsv_threshold_saturation = [142.1762589928057, 255.0]
+        self.__hsv_threshold_value = [0.0, 255.0]
 
         self.hsv_threshold_output = None
 
@@ -42,9 +42,9 @@ class GripPipeline:
         self.mask_output = None
 
         self.__hsl_threshold_input = self.mask_output
-        self.__hsl_threshold_hue = [6.119628141092576, 89.0909090909091]
-        self.__hsl_threshold_saturation = [48.1564748201439, 166.9949494949495]
-        self.__hsl_threshold_luminance = [9.172661870503596, 100.45454545454548]
+        self.__hsl_threshold_hue = [6.119628141092576, 180.0]
+        self.__hsl_threshold_saturation = [0.0, 255.0]
+        self.__hsl_threshold_luminance = [9.172661870503596, 255.0]
 
         self.hsl_threshold_output = None
 
@@ -67,7 +67,6 @@ class GripPipeline:
         self.__filter_contours_max_ratio = 1000.0
 
         self.filter_contours_output = None
-	
 	# ---
 	self.boundingRects = None
 	self.center = None
@@ -106,65 +105,7 @@ class GripPipeline:
         self.__filter_contours_contours = self.find_contours_output
         (self.filter_contours_output) = self.__filter_contours(self.__filter_contours_contours, self.__filter_contours_min_area, self.__filter_contours_min_perimeter, self.__filter_contours_min_width, self.__filter_contours_max_width, self.__filter_contours_min_height, self.__filter_contours_max_height, self.__filter_contours_solidity, self.__filter_contours_max_vertices, self.__filter_contours_min_vertices, self.__filter_contours_min_ratio, self.__filter_contours_max_ratio)
 
-        """	
-	# shamelessly copied
-	tempRects = []
-        self.boundingRects = []
 
-        for cont in self.filter_contours_output:
-            myRect = cv2.boundingRect(cont)
-            tempRects.append(myRect)
-            self.center = None
-        if (len(tempRects) == 3):
-            largestArea = tempRects[0][2] * tempRects[0][3]
-            largestRect = tempRects[0]
-            
-            for rect in tempRects:
-                area = rect[2] * rect[3]
-                if (area > largestArea):
-                    largestArea = area
-                    largestRect = rect
-                    
-            self.boundingRects.append(largestRect)
-            newRects = []
-            
-            for rect in tempRects:
-                if rect != largestRect:
-                    newRects.append(rect)
-            
-            if (math.fabs(newRects[0][0] - newRects[1][0]) <= 8): # means the two small ones are co-linear
-                if (newRects[0][1] < newRects[1][1]):
-                    hr = newRects[0]
-                    lr = newRects[1]
-                    
-                    newContArray = np.array([[hr[0], hr[1]], [hr[0]+hr[2], hr[1]], [lr[0], lr[1]+lr[3]], [lr[0]+lr[2], lr[1]+lr[3]]])
-                    newCont = newContArray.reshape(-1, 1, 2).astype(np.int32)                    
-                    newRect = cv2.boundingRect(newCont)
-                    self.boundingRects.append(newRect)
-                else:
-                    hr = newRects[1]
-                    lr = newRects[0]
-                    newContArray = np.array([[hr[0], hr[1]], [hr[0]+hr[2], hr[1]], [lr[0], lr[1]+lr[3]], [lr[0]+lr[2], lr[1]+lr[3]]])
-                    newCont = newContArray.reshape(-1, 1, 2).astype(np.int32)                    
-                    newRect = cv2.boundingRect(newCont)
-                    self.boundingRects.append(newRect)
-            else:   # NO Co-Linear rects!
-                pass 
-        else:
-            for rect in tempRects:
-                if ((float(rect[2]) / float(rect[3])) >= 0.3 and (float(rect[2]) / float(rect[3])) <= 0.7 ):
-                    self.boundingRects.append(rect)
-            
-        if (len(self.boundingRects) == 2)
-            centerX = (self.boundingRects[0][0] + self.boundingRects[0][2]/2 + self.boundingRects[1][0] + self.boundingRects[1][2]/2)/2
-            centerY = (self.boundingRects[0][1] + self.boundingRects[0][3]/2 + self.boundingRects[1][1] + self.boundingRects[1][3]/2)/2
-            self.center = [centerX, centerY]  
-        elif (len(self.boundingRects) == 3):
-            pass
-
-	# /selflessly copied
-
-        """
 	tempRects = []
         self.boundingRects = []
 	self.largestRect = None
@@ -190,7 +131,7 @@ class GripPipeline:
                     largestRect = rect
 		    self.largestRect = largestRect
 		    self.largestArea = largestArea
-		    
+			
     @staticmethod
     def __cv_resize(src, d_size, fx, fy, interpolation):
         """Resizes an Image.
@@ -268,9 +209,6 @@ class GripPipeline:
         Return:
             A list of numpy.ndarray where each one represents a contour.
         """
-
-        #cv2.imshow("Chonch", input)
-
         if(external_only):
             mode = cv2.RETR_EXTERNAL
         else:
