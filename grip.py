@@ -269,7 +269,7 @@ class GripPipeline:
             A list of numpy.ndarray where each one represents a contour.
         """
 
-        cv2.imshow("Chonch", input)
+        #cv2.imshow("Chonch", input)
 
         if(external_only):
             mode = cv2.RETR_EXTERNAL

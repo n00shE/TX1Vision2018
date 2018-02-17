@@ -83,12 +83,12 @@ while streamRunning:
 	if a != -1 and b != -1:
 		jpg = bytes[a:b+2]
 		bytes = bytes[b+2:]
-		if version == 2:
-			frame = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
-		else:
-			frame = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
-        	cv2.imshow('no one likes Jackson', frame)
-		#print("this shit dope")
+
+		color = cv2.CV_LOAD_IMAGE_COLOR if version == 2 else cv2.IMREAD_COLOR #name better
+		frame = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), color)
+
+        	#cv2.imshow('no one likes Jackson', frame)
+
 		pipeline.process(frame)
 		#print pipeline.boundingRects
 		#print pipeline.center
@@ -108,14 +108,14 @@ while streamRunning:
 		    centerX = pipeline.largestRect[0] + pipeline.largestRect[2]/2
 		    centerY = pipeline.largestRect[1] + pipeline.largestRect[3]/2
 	    	    cv2.rectangle(frame, (pipeline.largestRect[0],pipeline.largestRect[1]), (xtwo,ytwo), (255,0,0), thickness=3, lineType=8, shift=0)
-	    	    cv2.imshow("Rectangle", frame)
+	    	    #cv2.imshow("Rectangle", frame)
 		    
 		    sd.putNumber("centerX", centerX)
 		    sd.putNumber("centerY", centerY)
 		    sd.putNumber("width", pipeline.largestRect[2])
 		    sd.putNumber("height", pipeline.largestRect[3])
 		    sd.putNumber("area", pipeline.largestArea)
-		    print pipeline.largestArea
+		    #print pipeline.largestArea
 
 		# Press Q on keyboard to  exit
 		if cv2.waitKey(25) & 0xFF == ord('q'):
