@@ -127,6 +127,13 @@ while streamRunning:
 		    sd.putNumberArray("area", [pipeline.largestArea])
 #		    sd.putNumber("Test", len(pipeline.largestRect))
 #		    print pipeline.largestArea
+		else:
+		    sd.putNumberArray("centerX", [])
+                    sd.putNumberArray("centerY", [])
+                    sd.putNumberArray("width", [])
+                    sd.putNumberArray("height", [])
+                    sd.putNumberArray("area", [])
+
 
 		# Press Q on keyboard to  exit
 		if cv2.waitKey(25) & 0xFF == ord('q'):

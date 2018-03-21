@@ -22,8 +22,8 @@ class GripPipeline:
 
         self.__hsv_threshold_input = self.cv_resize_output
         self.__hsv_threshold_hue = [19.0, 53.0]
-        self.__hsv_threshold_saturation = [131.1762589928057, 255.0]
-        self.__hsv_threshold_value = [41.0, 131.0]
+        self.__hsv_threshold_saturation = [44.1762589928057, 223.0]
+        self.__hsv_threshold_value = [103.0, 255.0]
 
         self.hsv_threshold_output = None
 
@@ -42,9 +42,9 @@ class GripPipeline:
         self.mask_output = None
 
         self.__hsl_threshold_input = self.mask_output
-        self.__hsl_threshold_hue = [0.119628141092576, 72.0]
-        self.__hsl_threshold_saturation = [96.0, 255.0]
-        self.__hsl_threshold_luminance = [7.172661870503596, 188.0]
+        self.__hsl_threshold_hue = [0.119628141092576, 47.0]
+        self.__hsl_threshold_saturation = [55.0, 200.0]
+        self.__hsl_threshold_luminance = [44.172661870503596, 174.0]
 
         self.hsl_threshold_output = None
 
