@@ -96,7 +96,7 @@ while streamRunning:
 		color = cv2.CV_LOAD_IMAGE_COLOR if version == 2 else cv2.IMREAD_COLOR #name better
 		frame = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), color)
 
-        	#cv2.imshow('no one likes Jackson', frame)
+        	cv2.imshow('Image', frame)
 
 		pipeline.process(frame)
 		#print pipeline.boundingRects
@@ -116,8 +116,8 @@ while streamRunning:
 		    
 		    centerX = [pipeline.largestRect[0] + pipeline.largestRect[2]/2]
 		    centerY = [pipeline.largestRect[1] + pipeline.largestRect[3]/2]
-	    	   # cv2.rectangle(frame, (pipeline.largestRect[0],pipeline.largestRect[1]), (xtwo,ytwo), (255,0,0), thickness=3, lineType=8, shift=0)
-	    	   # cv2.imshow("Rectangle", frame)
+	    	    cv2.rectangle(frame, (pipeline.largestRect[0],pipeline.largestRect[1]), (xtwo,ytwo), (255,0,0), thickness=3, lineType=8, shift=0)
+	    	    cv2.imshow("Rectangle", frame)
 
 		    
 		    sd.putNumberArray("centerX", centerX)

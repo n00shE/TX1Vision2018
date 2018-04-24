@@ -198,6 +198,7 @@ class GripPipeline:
             A black and white numpy.ndarray.
         """
         out = cv2.cvtColor(input, cv2.COLOR_BGR2HLS)
+	cv2.imshow('Jackson is the best build captain', out)
         return cv2.inRange(out, (hue[0], lum[0], sat[0]),  (hue[1], lum[1], sat[1]))
 
     @staticmethod
