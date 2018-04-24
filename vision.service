@@ -1,0 +1,14 @@
+[Unit]
+Description=GRIP Computer Vision
+StartLimitInterval=200
+StartLimitBurst=5
+
+[Service]
+ExecStart=/home/nvidia/startup.sh
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
+
+
